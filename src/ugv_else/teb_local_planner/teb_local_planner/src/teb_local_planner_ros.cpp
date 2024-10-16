@@ -37,6 +37,7 @@
  *********************************************************************/
 
 #include "teb_local_planner/teb_local_planner_ros.h"
+#include "teb_local_planner/g2o_types/utils.h"
 
 // #include <tf_conversions/tf_eigen.h>
 #include <boost/algorithm/string.hpp>
@@ -154,7 +155,8 @@ namespace teb_local_planner
 
             // Get footprint of the robot and minimum and maximum distance from the center of the robot to its footprint vertices.
             footprint_spec_ = costmap_ros_->getRobotFootprint();
-            nav2_costmap_2d::calculateMinAndMaxDistances(footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius);
+            // nav2_costmap_2d::calculateMinAndMaxDistances(footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius);
+            nav2_costmap_2d::calculateMinAndMaxDistances(footprint_spec_);
 
             // Add callback for dynamic parameters
             dyn_params_handler = node->add_on_set_parameters_callback(std::bind(&TebConfig::dynamicParametersCallback, std::ref(cfg_), std::placeholders::_1));
@@ -395,7 +397,8 @@ namespace teb_local_planner
             if (updated_footprint_spec_ != footprint_spec_)
             {
                 updated_footprint_spec_ = footprint_spec_;
-                nav2_costmap_2d::calculateMinAndMaxDistances(updated_footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius);
+                // nav2_costmap_2d::calculateMinAndMaxDistances(updated_footprint_spec_, robot_inscribed_radius_, robot_circumscribed_radius);
+                nav2_costmap_2d::calculateMinAndMaxDistances(updated_footprint_spec_);
             }
         }
 
@@ -996,7 +999,7 @@ namespace teb_local_planner
         double radius = v / omega;
 
         if (fabs(radius) < min_turning_radius)
-            radius = double(g2o::sign(radius)) * min_turning_radius;
+            radius = double(sign(radius)) * min_turning_radius;
 
         return std::atan(wheelbase / radius);
     }
