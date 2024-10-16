@@ -263,7 +263,7 @@ namespace teb_local_planner
         /**
          * average two angles, replace g2o function
          */
-        inline double averageAngle(double theta1, double theta2)
+        inline static double averageAngle(double theta1, double theta2)
         {
             double x, y;
 

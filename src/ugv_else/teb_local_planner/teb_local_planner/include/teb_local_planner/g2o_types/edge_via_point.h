@@ -32,7 +32,7 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * Notes:
  * The following class is derived from a class defined by the
  * g2o-framework. g2o is licensed under the terms of the BSD License.
@@ -43,79 +43,68 @@
 #ifndef EDGE_VIA_POINT_H_
 #define EDGE_VIA_POINT_H_
 
-#include "teb_local_planner/g2o_types/vertex_pose.h"
 #include "teb_local_planner/g2o_types/base_teb_edges.h"
+#include "teb_local_planner/g2o_types/vertex_pose.h"
 #include "teb_local_planner/misc.h"
 
 #include "g2o/core/base_unary_edge.h"
 
-
 namespace teb_local_planner
 {
 
-/**
- * @class EdgeViaPoint
- * @brief Edge defining the cost function for pushing a configuration towards a via point
- * 
- * The edge depends on a single vertex \f$ \mathbf{s}_i \f$ and minimizes: \n
- * \f$ \min  dist2point \cdot weight \f$. \n
- * \e dist2point denotes the distance to the via point. \n
- * \e weight can be set using setInformation(). \n
- * @see TebOptimalPlanner::AddEdgesViaPoints
- * @remarks Do not forget to call setTebConfig() and setViaPoint()
- */     
-class EdgeViaPoint : public BaseTebUnaryEdge<1, const Eigen::Vector2d*, VertexPose>
-{
-public:
-    
-  /**
-   * @brief Construct edge.
-   */    
-  EdgeViaPoint() 
-  {
-    _measurement = NULL;
-  }
- 
-  /**
-   * @brief Actual cost function
-   */    
-  void computeError()
-  {
-    TEB_ASSERT_MSG(cfg_ && _measurement, "You must call setTebConfig(), setViaPoint() on EdgeViaPoint()");
-    const VertexPose* bandpt = static_cast<const VertexPose*>(_vertices[0]);
+    /**
+     * @class EdgeViaPoint
+     * @brief Edge defining the cost function for pushing a configuration towards a via point
+     *
+     * The edge depends on a single vertex \f$ \mathbf{s}_i \f$ and minimizes: \n
+     * \f$ \min  dist2point \cdot weight \f$. \n
+     * \e dist2point denotes the distance to the via point. \n
+     * \e weight can be set using setInformation(). \n
+     * @see TebOptimalPlanner::AddEdgesViaPoints
+     * @remarks Do not forget to call setTebConfig() and setViaPoint()
+     */
+    class EdgeViaPoint : public BaseTebUnaryEdge<1, const Eigen::Vector2d*, VertexPose>
+    {
+    public:
+        /**
+         * @brief Construct edge.
+         */
+        EdgeViaPoint() { _measurement = NULL; }
 
-    _error[0] = (bandpt->position() - *_measurement).norm();
+        /**
+         * @brief Actual cost function
+         */
+        void computeError()
+        {
+            TEB_ASSERT_MSG(cfg_ && _measurement, "You must call setTebConfig(), setViaPoint() on EdgeViaPoint()");
+            const VertexPose* bandpt = static_cast<const VertexPose*>(_vertices[0]);
 
-    TEB_ASSERT_MSG(std::isfinite(_error[0]), "EdgeViaPoint::computeError() _error[0]=%f\n",_error[0]);
-  }
+            _error[0] = (bandpt->position() - *_measurement).norm();
 
-  /**
-   * @brief Set pointer to associated via point for the underlying cost function 
-   * @param via_point 2D position vector containing the position of the via point
-   */ 
-  void setViaPoint(const Eigen::Vector2d* via_point)
-  {
-    _measurement = via_point;
-  }
-    
-  /**
-   * @brief Set all parameters at once
-   * @param cfg TebConfig class
-   * @param via_point 2D position vector containing the position of the via point
-   */ 
-  void setParameters(const TebConfig& cfg, const Eigen::Vector2d* via_point)
-  {
-    cfg_ = &cfg;
-    _measurement = via_point;
-  }
-  
-public: 	
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+            TEB_ASSERT_MSG(std::isfinite(_error[0]), "EdgeViaPoint::computeError() _error[0]=%f\n", _error[0]);
+        }
 
-};
-  
-    
+        /**
+         * @brief Set pointer to associated via point for the underlying cost function
+         * @param via_point 2D position vector containing the position of the via point
+         */
+        void setViaPoint(const Eigen::Vector2d* via_point) { _measurement = via_point; }
 
-} // end namespace
+        /**
+         * @brief Set all parameters at once
+         * @param cfg TebConfig class
+         * @param via_point 2D position vector containing the position of the via point
+         */
+        void setParameters(const TebConfig& cfg, const Eigen::Vector2d* via_point)
+        {
+            cfg_         = &cfg;
+            _measurement = via_point;
+        }
+
+    public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+    };
+
+} // namespace teb_local_planner
 
 #endif
