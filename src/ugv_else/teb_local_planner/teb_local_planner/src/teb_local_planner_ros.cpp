@@ -54,7 +54,7 @@
 #include "g2o/solvers/cholmod/linear_solver_cholmod.h"
 #include "g2o/solvers/csparse/linear_solver_csparse.h"
 
-#include <nav2_core/controller_exceptions.hpp>
+// #include <nav2_core/controller_exceptions.hpp>
 #include <nav2_core/planner_exceptions.hpp>
 #include <nav2_core/smoother_exceptions.hpp>
 #include <nav2_costmap_2d/footprint.hpp>
