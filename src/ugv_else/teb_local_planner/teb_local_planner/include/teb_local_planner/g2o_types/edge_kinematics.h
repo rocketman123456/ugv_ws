@@ -46,6 +46,7 @@
 
 #include "teb_local_planner/g2o_types/base_teb_edges.h"
 #include "teb_local_planner/g2o_types/penalties.h"
+#include "teb_local_planner/g2o_types/utils.h"
 #include "teb_local_planner/g2o_types/vertex_pose.h"
 #include "teb_local_planner/misc.h"
 #include "teb_local_planner/teb_config.h"

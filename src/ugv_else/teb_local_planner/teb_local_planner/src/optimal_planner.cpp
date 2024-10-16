@@ -53,24 +53,13 @@
 #include <teb_local_planner/g2o_types/edge_velocity.h>
 #include <teb_local_planner/g2o_types/edge_velocity_obstacle_ratio.h>
 #include <teb_local_planner/g2o_types/edge_via_point.h>
+#include <teb_local_planner/g2o_types/utils.h>
 
 #include <limits>
 #include <memory>
 
 namespace teb_local_planner
 {
-
-    template<typename T>
-    inline int sign(T x)
-    {
-        if (x > 0)
-            return 1;
-        else if (x < 0)
-            return -1;
-        else
-            return 0;
-    }
-
     // ============== Implementation ===================
 
     TebOptimalPlanner::TebOptimalPlanner()

@@ -40,6 +40,7 @@
 #define MISC_H
 
 #include <builtin_interfaces/msg/duration.hpp>
+#include <teb_local_planner/g2o_types/utils.h>
 
 #include <Eigen/Core>
 
