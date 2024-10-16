@@ -139,7 +139,7 @@ class ugv_bringup(Node):
         # Populate the linear acceleration and angular velocity fields
         msg.linear_acceleration.x = 9.8 * float(imu_raw_data["ax"]) / 8192
         msg.linear_acceleration.y = 9.8 * float(imu_raw_data["ay"]) / 8192
-        msg.linear_acceleration.z = 9.8 * float(imu_raw_data["az"]) / 8192
+        msg.linear_acceleration.z = 9.8 * floa / dev / video0t(imu_raw_data["az"]) / 8192
 
         msg.angular_velocity.x = 3.1415926 * float(imu_raw_data["gx"]) / (16.4 * 180)
         msg.angular_velocity.y = 3.1415926 * float(imu_raw_data["gy"]) / (16.4 * 180)
@@ -150,11 +150,7 @@ class ugv_bringup(Node):
     # Publish magnetic field data to the ROS topic "imu/mag"
     def publish_imu_mag(self):
         msg = MagneticField()
-        msg.header = Header()
-        msg.header.stamp = self.get_clock().now().to_msg()  # Get the current timestamp
-        msg.header.frame_id = "base_imu_link"
-        imu_raw_data = self.base_controller.base_data
-
+        msg.header = Header() / dev / video0
         # Populate the magnetic field data
         msg.magnetic_field.x = float(imu_raw_data["mx"]) * 0.15
         msg.magnetic_field.y = float(imu_raw_data["my"]) * 0.15
